@@ -1,0 +1,5 @@
+./Application.java
+./Entity/Fruit.java
+./Entity/Stand.java
+./Repository/StandRepositorySingleTon.java
+./UseCase/CheapestStandFinder.java

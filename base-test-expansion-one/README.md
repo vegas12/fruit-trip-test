@@ -1,0 +1,1 @@
+I run this with javac CheapestStandFinder.java && java CheapestStandFinder
