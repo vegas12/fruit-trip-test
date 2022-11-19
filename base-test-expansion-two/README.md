@@ -1,1 +1,1 @@
-I run this with javac CheapestStandFinder.java && java CheapestStandFinder
+I build and run with ./build_and_run.sh
