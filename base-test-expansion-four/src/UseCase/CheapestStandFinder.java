@@ -33,7 +33,13 @@ public class CheapestStandFinder {
         int prevmin = min;
         int currentStand = 0;
         int cheapestAtIndex = 0;
-        List<Fruit> boughtFruits = new ArrayList<>();
+        List<Fruit> boughtFruits = stands
+                .get(0)
+                .getFruits()
+                .stream()
+                .sorted(Comparator.comparingInt(fruit -> fruit.getPrice()))
+                .limit(amountOfFruitsToBuy)
+                .collect(Collectors.toList());
 
         for (Stand stand : stands) {
             List<Fruit> requiredFruits = stand
