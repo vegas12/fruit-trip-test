@@ -1,7 +1,7 @@
-package Entity;
+package com.vegas.fruit_ride.Entity;
 
 import java.util.List;
-import Entity.*;
+import com.vegas.fruit_ride.Entity.*;
 
 public class Stand {
     private List<Fruit> fruits;

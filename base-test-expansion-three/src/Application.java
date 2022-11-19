@@ -1,5 +1,7 @@
-import Repository.*;
-import UseCase.CheapestStandFinder;
+package com.vegas.fruit_ride;
+
+import com.vegas.fruit_ride.Repository.*;
+import com.vegas.fruit_ride.UseCase.CheapestStandFinder;
 
 public class Application {
     public static void main(String[] args) {

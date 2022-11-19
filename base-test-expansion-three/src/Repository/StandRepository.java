@@ -1,4 +1,4 @@
-package Repository;
+package com.vegas.fruit_ride.Repository;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.*;
 import static java.util.Map.entry;
-import Entity.Stand;
-import Entity.Fruit;
+import com.vegas.fruit_ride.Entity.Stand;
+import com.vegas.fruit_ride.Entity.Fruit;
 import java.util.stream.Collectors;
 
 public class StandRepository {
