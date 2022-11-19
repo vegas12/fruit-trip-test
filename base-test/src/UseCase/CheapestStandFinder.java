@@ -63,18 +63,6 @@ public class CheapestStandFinder {
 
         System.out.println("Stand: " + ordinal(cheapestAtIndex + 1));
         System.out.println("Total price: " + min);
-
-        for (Fruit boughtFruit : boughtFruits) {
-            System.out.println("Bought: " + boughtFruit.getType() + " for " + boughtFruit.getPrice());
-        }
-
-        List<Fruit> fruits = stands.get(cheapestAtIndex).getFruits();
-        fruits.removeIf((Fruit fruit) -> boughtFruits.contains(fruit));
-
-        repository.updateProductsForStandAtIndex(
-            cheapestAtIndex,
-            fruits
-        );
     }
 
     private static String ordinal(int i) {

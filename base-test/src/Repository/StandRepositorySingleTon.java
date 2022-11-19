@@ -64,12 +64,4 @@ public class StandRepositorySingleTon {
 
         return stands;
     }
-
-    public void updateProductsForStandAtIndex(int index, List<Fruit> fruits) throws RuntimeException {
-        if (index > data.size()) {
-            throw new RuntimeException("No Stand at index " + index);
-        }
-
-        this.data.set(index, fruits.stream().collect(Collectors.toMap(p -> p.getType().name(), p -> p.getPrice())));
-    }
 }
