@@ -9,7 +9,7 @@ public class Application {
         try {
             CheapestStandFinder finder = new CheapestStandFinder();
 
-            finder.run(2, Fruit.Type.PEACH); // Pelle and Kajsa rides
+            finder.run(2, Fruit.Type.PEAR); // Pelle and Kajsa rides
             System.out.println("-----------");
             finder.run(1, Fruit.Type.PEACH); // Their friend rides
         } catch (RuntimeException e) {
