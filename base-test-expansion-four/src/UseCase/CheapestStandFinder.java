@@ -1,7 +1,7 @@
-package UseCase;
+package com.vegas.fruit_ride.UseCase;
 
-import Repository.*;
-import Entity.*;
+import com.vegas.fruit_ride.Repository.*;
+import com.vegas.fruit_ride.Entity.*;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;

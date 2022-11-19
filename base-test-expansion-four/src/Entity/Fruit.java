@@ -1,4 +1,4 @@
-package Entity;
+package com.vegas.fruit_ride.Entity;
 
 public class Fruit {
     public enum Type {
