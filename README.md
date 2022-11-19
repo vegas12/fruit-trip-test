@@ -1,0 +1,1 @@
+Step in to any folder and build and run with ./build_and_run.sh

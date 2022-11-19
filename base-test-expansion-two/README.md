@@ -1,1 +1,0 @@
-I build and run with ./build_and_run.sh
