@@ -82,6 +82,7 @@ public class CheapestStandFinder {
 
         System.out.println("Stand: " + ordinal(cheapestAtIndex + 1));
         System.out.println("Total price: " + min);
+        System.out.println("Selected amongst: " + stands.get(cheapestAtIndex).getFruits().size() + " fruits");
 
         for (Fruit boughtFruit : boughtFruits) {
             System.out.println("Bought: " + boughtFruit.getType() + " for " + boughtFruit.getPrice());
