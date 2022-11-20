@@ -1,5 +1,0 @@
-./src/Application.java
-./src/Entity/Fruit.java
-./src/Entity/Stand.java
-./src/Repository/StandRepository.java
-./src/UseCase/CheapestStandFinder.java
