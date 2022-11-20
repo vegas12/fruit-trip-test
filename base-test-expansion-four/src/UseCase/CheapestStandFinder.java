@@ -17,16 +17,22 @@ public class CheapestStandFinder {
         repository = StandRepositorySingleTon.getInstance();
     }
 
-    public void run(int amountOfFruitsToBuy, Fruit.Type requiredType) {
-        List<Stand> stands = repository.getStands();
-        List<Stand> standsWithRequiredType = stands
-            .stream()
-            .filter(stand ->
-                stand.getFruits().stream().map(Fruit::getType).anyMatch(requiredType::equals)
-            )
-            .collect(Collectors.toList());
+    public void run(int amountOfFruitsToBuy, List<Fruit.Type> requiredTypes) throws RuntimeException {
+        if (amountOfFruitsToBuy < requiredTypes.size()) {
+            throw new RuntimeException("You cant require more specific types than the amount of fruits you want to buy.");
+        }
 
-        int min = standsWithRequiredType.get(0).getFruits()
+        List<Stand> stands = repository.getStands();
+        List<Stand> standsWithRequiredTypes = requiredTypes.isEmpty() ?
+            stands :
+            stands
+                .stream()
+                .filter(stand ->
+                    stand.getFruits().stream().map(Fruit::getType).anyMatch(requiredTypes::contains)
+                )
+                .collect(Collectors.toList());
+
+        int min = standsWithRequiredTypes.get(0).getFruits()
             .stream()
             .mapToInt(Fruit::getPrice)
             .sum();
@@ -45,7 +51,7 @@ public class CheapestStandFinder {
             List<Fruit> requiredFruits = stand
                 .getFruits()
                 .stream()
-                .filter(fruit -> fruit.getType() == requiredType)
+                .filter(fruit -> requiredTypes.contains(fruit.getType()))
                 .collect(Collectors.toList());
 
             if (requiredFruits.size() == 0) {
@@ -56,7 +62,7 @@ public class CheapestStandFinder {
             List<Fruit> cheapestNonRequiredFruits = stand
                 .getFruits()
                 .stream()
-                .filter(fruit -> fruit.getType() != requiredType)
+                .filter(fruit -> !requiredTypes.contains(fruit.getType()))
                 .sorted(Comparator.comparingInt(fruit -> fruit.getPrice()))
                 .limit(amountOfFruitsToBuy-1) // One amount is spent on the required fruit, hence -1.
                 .collect(Collectors.toList());
