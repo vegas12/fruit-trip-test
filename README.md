@@ -5,9 +5,6 @@ Step in to any folder and build and run with ./build_and_run.sh
 TODOS:\
 Use some other method to read and persist data - Sqlite or file.\
 Add more unit tests.\
-Static code analysis?\
-Linter.\
-Provide docker image to build and run.\
 Handle invalid data in repository\
-Return basket from use case and let application print messages\
-If could get unit tests working I would test the use case.
+The use case should return some object so that unit testing can be done and Application can decide which text to print.
+The repository should be injected into the use case so that it can be mocked in unit tests.
