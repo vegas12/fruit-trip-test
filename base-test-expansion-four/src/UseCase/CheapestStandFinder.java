@@ -29,20 +29,11 @@ public class CheapestStandFinder {
         }
 
         List<Stand> stands = repository.getStands();
-        int min = stands.get(0).getFruits()
-            .stream()
-            .mapToInt(Fruit::getPrice)
-            .sum();
-        int prevmin = min;
+        int min = Integer.MAX_VALUE;
+        int prevmin = Integer.MAX_VALUE;
         int currentStand = 0;
         int cheapestAtIndex = 0;
-        List<Fruit> boughtFruits = stands
-            .get(0)
-            .getFruits()
-            .stream()
-            .sorted(Comparator.comparingInt(fruit -> fruit.getPrice()))
-            .limit(amountOfFruitsToBuy)
-            .collect(Collectors.toList());
+        List<Fruit> boughtFruits = new ArrayList<Fruit>();
 
         for (Stand stand : stands) {
             List<Fruit.Type> fruitTypes = stand.getFruits().stream().map(e -> e.getType()).collect(Collectors.toList());
@@ -95,6 +86,11 @@ public class CheapestStandFinder {
 
             prevmin = min;
             currentStand++;
+        }
+
+        if (boughtFruits.isEmpty()) {
+            System.out.println("Could not find any fruit to buy");
+            return;
         }
 
         System.out.println("Stand: " + ordinal(cheapestAtIndex + 1));

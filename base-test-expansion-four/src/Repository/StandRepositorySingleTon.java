@@ -23,8 +23,7 @@ public class StandRepositorySingleTon {
             Map.ofEntries(
                 // Fruit name, price
                 entry("CHERRY", 3),
-                entry("PEACH", 4),
-                entry("PEAR", 7)
+                entry("PEAR", 1)
             ),
             Map.ofEntries(
                 entry("CHERRY", 3),

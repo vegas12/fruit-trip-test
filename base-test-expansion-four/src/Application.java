@@ -13,9 +13,10 @@ public class Application {
         try {
             CheapestStandFinder finder = new CheapestStandFinder();
 
-            finder.run(2, new HashSet<>(Arrays.asList(Fruit.Type.PEAR))); // Pelle and Kajsa rides
-            System.out.println("-----------");
-            finder.run(1); // Their friend rides
+            System.out.println("----- Pelle and Kajsa rides ------");
+            finder.run(2, new HashSet<>(Arrays.asList(Fruit.Type.PEAR)));
+            System.out.println("----- The friend rides ------");
+            finder.run(1);
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
