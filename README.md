@@ -10,3 +10,4 @@ Linter.\
 Provide docker image to build and run.\
 Handle invalid data in repository\
 Return basket from use case and let application print messages\
+If could get unit tests working I would test the use case.
