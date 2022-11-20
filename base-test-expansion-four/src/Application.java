@@ -6,15 +6,16 @@ import com.vegas.fruit_ride.UseCase.CheapestStandFinder;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 public class Application {
     public static void main(String[] args) {
         try {
             CheapestStandFinder finder = new CheapestStandFinder();
 
-//            finder.run(2, Arrays.asList(Fruit.Type.PEAR, Fruit.Type.PEAR)); // Pelle and Kajsa rides
-//            System.out.println("-----------");
-            finder.run(1, Arrays.asList()); // Their friend rides
+            finder.run(2, new HashSet<>(Arrays.asList(Fruit.Type.PEAR))); // Pelle and Kajsa rides
+            System.out.println("-----------");
+            finder.run(1); // Their friend rides
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }

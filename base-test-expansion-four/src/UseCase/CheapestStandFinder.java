@@ -3,6 +3,8 @@ package com.vegas.fruit_ride.UseCase;
 import com.vegas.fruit_ride.Repository.*;
 import com.vegas.fruit_ride.Entity.*;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -17,22 +19,17 @@ public class CheapestStandFinder {
         repository = StandRepositorySingleTon.getInstance();
     }
 
-    public void run(int amountOfFruitsToBuy, List<Fruit.Type> requiredTypes) throws RuntimeException {
+    public void run(int amountOfFruitsToBuy) throws RuntimeException {
+        run(amountOfFruitsToBuy, new HashSet<>());
+    }
+
+    public void run(int amountOfFruitsToBuy, Set<Fruit.Type> requiredTypes) throws RuntimeException {
         if (amountOfFruitsToBuy < requiredTypes.size()) {
-            throw new RuntimeException("You cant require more specific types than the amount of fruits you want to buy.");
+            throw new RuntimeException("You can not require more specific types than the amount of fruits you want to buy.");
         }
 
         List<Stand> stands = repository.getStands();
-        List<Stand> standsWithRequiredTypes = requiredTypes.isEmpty() ?
-            stands :
-            stands
-                .stream()
-                .filter(stand ->
-                    stand.getFruits().stream().map(Fruit::getType).anyMatch(requiredTypes::contains)
-                )
-                .collect(Collectors.toList());
-
-        int min = standsWithRequiredTypes.get(0).getFruits()
+        int min = stands.get(0).getFruits()
             .stream()
             .mapToInt(Fruit::getPrice)
             .sum();
@@ -40,45 +37,59 @@ public class CheapestStandFinder {
         int currentStand = 0;
         int cheapestAtIndex = 0;
         List<Fruit> boughtFruits = stands
-                .get(0)
-                .getFruits()
-                .stream()
-                .sorted(Comparator.comparingInt(fruit -> fruit.getPrice()))
-                .limit(amountOfFruitsToBuy)
-                .collect(Collectors.toList());
+            .get(0)
+            .getFruits()
+            .stream()
+            .sorted(Comparator.comparingInt(fruit -> fruit.getPrice()))
+            .limit(amountOfFruitsToBuy)
+            .collect(Collectors.toList());
 
         for (Stand stand : stands) {
-            List<Fruit> requiredFruits = stand
-                .getFruits()
-                .stream()
-                .filter(fruit -> requiredTypes.contains(fruit.getType()))
-                .collect(Collectors.toList());
+            List<Fruit.Type> fruitTypes = stand.getFruits().stream().map(e -> e.getType()).collect(Collectors.toList());
+            boolean hasRequiredFruits = requiredTypes.isEmpty() ?
+                stand.getFruits().size() > 0 :
+                fruitTypes.containsAll(requiredTypes);
 
-            if (requiredFruits.size() == 0) {
+            if (!hasRequiredFruits) {
                 currentStand++;
                 continue;
             }
 
-            List<Fruit> cheapestNonRequiredFruits = stand
-                .getFruits()
-                .stream()
-                .filter(fruit -> !requiredTypes.contains(fruit.getType()))
-                .sorted(Comparator.comparingInt(fruit -> fruit.getPrice()))
-                .limit(amountOfFruitsToBuy-1) // One amount is spent on the required fruit, hence -1.
-                .collect(Collectors.toList());
+            List<Fruit> fruits = stand.getFruits();
+            List<Fruit> prospectFruits = new ArrayList<>();
 
-            int sumOfNonRequiredFruits = cheapestNonRequiredFruits
+            if (requiredTypes.isEmpty()) {
+                prospectFruits = fruits
+                    .stream()
+                    .sorted(Comparator.comparingInt(fruit -> fruit.getPrice()))
+                    .limit(amountOfFruitsToBuy)
+                    .collect(Collectors.toList());
+            } else {
+                prospectFruits = fruits
+                    .stream()
+                    .filter(fruit -> requiredTypes.contains(fruit.getType()))
+                    .collect(Collectors.toList());
+                prospectFruits.addAll(
+                    fruits
+                        .stream()
+                        .filter(fruit -> !requiredTypes.contains(fruit.getType()))
+                        .sorted(Comparator.comparingInt(fruit -> fruit.getPrice()))
+                        .limit(amountOfFruitsToBuy - prospectFruits.size())
+                        .collect(Collectors.toList())
+                );
+            }
+
+            int sumOfFruits = prospectFruits
                 .stream()
                 .mapToInt(Fruit::getPrice)
                 .sum();
 
-            min = Math.min(sumOfNonRequiredFruits + requiredFruits.get(0).getPrice(), min);
+            min = Math.min(sumOfFruits, min);
 
             if (min < prevmin) {
                 cheapestAtIndex = currentStand;
                 boughtFruits.clear();
-                boughtFruits.addAll(Arrays.asList(requiredFruits.get(0)));
-                boughtFruits.addAll(cheapestNonRequiredFruits);
+                boughtFruits.addAll(prospectFruits);
                 prevmin = min;
             }
 
